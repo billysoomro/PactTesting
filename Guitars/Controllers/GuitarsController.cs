@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Guitars.Pact.Provider.Models;
+using Guitars.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Guitars.Pact.Provider.Controllers
+namespace Guitars.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

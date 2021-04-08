@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Guitars.Pact.Provider.Models
+namespace Guitars.Models
 {
     public class Guitar
     {
