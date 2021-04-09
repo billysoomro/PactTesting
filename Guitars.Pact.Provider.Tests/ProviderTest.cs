@@ -38,6 +38,7 @@ namespace Guitars.Pact.Provider.Tests
             };
 
             new PactVerifier(config)
+                .ProviderState($"{_selfHostedproviderUrl}/provider-states")
                 .ServiceProvider("GuitarsProvider", _selfHostedproviderUrl)
                 .HonoursPactWith("GuitarsConsumer")
                 .PactUri(@"C:\Pacts\GuitarService\pacts\guitarsconsumer-guitarsprovider.json")

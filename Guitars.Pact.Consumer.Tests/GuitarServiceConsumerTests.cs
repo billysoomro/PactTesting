@@ -38,7 +38,7 @@ namespace Guitars.Pact.Consumer.Tests
 
             //Arrange
             _mockProviderService
-                .Given("A GET request to retrieve guitars")
+                .Given("A GET request to retrieve guitars and match data")
                 .UponReceiving("Should receive a list of matching guitars")
                 .With(new ProviderServiceRequest
                 {
@@ -84,7 +84,7 @@ namespace Guitars.Pact.Consumer.Tests
 
             //Arrange
             _mockProviderService
-                .Given("A GET request to retrieve guitars")
+                .Given("A GET request to retrieve guitars and match model")
                 .UponReceiving("Should receive a list of matching guitar objects")
                 .With(new ProviderServiceRequest
                 {
@@ -123,7 +123,7 @@ namespace Guitars.Pact.Consumer.Tests
 
             //Arrange
             _mockProviderService
-                .Given("A POST request to create a new guitar")
+                .Given("A POST request to create a new guitar and match data")
                 .UponReceiving("Should receive a matching guitar")
                 .With(new ProviderServiceRequest
                 {
@@ -164,7 +164,7 @@ namespace Guitars.Pact.Consumer.Tests
             
             //Arrange
             _mockProviderService
-                .Given("A POST request to create a new guitar")
+                .Given("A POST request to create a new guitar and match model")
                 .UponReceiving("Should receive a matching guitar object")
                 .With(new ProviderServiceRequest
                 {
@@ -205,7 +205,7 @@ namespace Guitars.Pact.Consumer.Tests
 
             //Arrange
             _mockProviderService
-                .Given("A PUT request to update a guitar")
+                .Given("A PUT request to update a guitar and match data")
                 .UponReceiving("Should receive a matching guitar")
                 .With(new ProviderServiceRequest
                 {
@@ -246,7 +246,7 @@ namespace Guitars.Pact.Consumer.Tests
 
             //Arrange
             _mockProviderService
-                .Given("A PUT request to update a guitar")
+                .Given("A PUT request to update a guitar and match model")
                 .UponReceiving("Should receive a matching updated guitar object")
                 .With(new ProviderServiceRequest
                 {
