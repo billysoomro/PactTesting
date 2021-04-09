@@ -277,5 +277,44 @@ namespace Guitars.Pact.Consumer.Tests
 
             _mockProviderService.VerifyInteractions(); //NOTE: Verifies that interactions registered on the mock provider are called at least once
         }
+
+        [Fact] public void Should_Delete_Guitar_And_Return_Deleted()
+        {
+            var path = "/api/guitars/1";
+            var status = 200;
+            var body = "Deleted";
+
+            //Arrange
+            _mockProviderService
+                .Given("A DELETE request to delete a guitar")
+                .UponReceiving("Should delete guitar and return Deleted")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Delete,
+                    Path = path,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Accept", "application/json" }
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = status,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                    Body = body
+                }); //NOTE: WillRespondWith call must come last as it will register the interaction
+
+            //Act
+            var pactInfo = _mockProviderClient.SendGenericRequest<object>(HttpMethod.Delete, path, HttpStatusCode.OK, null, body);
+
+            //Assert
+            Assert.NotNull(pactInfo);
+
+            _mockProviderService.VerifyInteractions(); //NOTE: Verifies that interactions registered on the mock provider are called at least once
+        }
     }
 }
+

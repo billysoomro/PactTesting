@@ -23,20 +23,20 @@ namespace Guitars.Controllers
             return Ok(guitars);
         }
 
-        [HttpPut]
-        public IActionResult Put(Guitar guitar)
-        {
-            return Ok(guitar);
-        }
-
         [HttpPost]
-        public IActionResult Post(Guitar guitar)
+        public IActionResult Post([FromBody] Guitar guitar)
         {
             return Created("api/guitars/1", guitar);
         }
 
-        [HttpDelete]
-        public IActionResult Delete()
+        [HttpPut]
+        public IActionResult Put([FromBody] Guitar guitar)
+        {
+            return Ok(guitar);
+        }
+        
+        [HttpDelete("{id}")]
+        public IActionResult Delete([FromQuery] string id)
         {
             return Ok("Deleted");
         }
