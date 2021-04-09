@@ -39,7 +39,7 @@ namespace Guitars.Pact.Consumer.Tests
             //Arrange
             _mockProviderService
                 .Given("A GET request to retrieve guitars")
-                .UponReceiving("Should receive an object matching guitar(s) data")
+                .UponReceiving("Should receive a list of matching guitars")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -85,7 +85,7 @@ namespace Guitars.Pact.Consumer.Tests
             //Arrange
             _mockProviderService
                 .Given("A GET request to retrieve guitars")
-                .UponReceiving("Should receive an object matching guitar(s) model")
+                .UponReceiving("Should receive a list of matching guitar objects")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -114,46 +114,168 @@ namespace Guitars.Pact.Consumer.Tests
             _mockProviderService.VerifyInteractions(); //NOTE: Verifies that interactions registered on the mock provider are called at least once
         }
 
-        //[Fact]
-        //public void Should_Post_Guitar_And_Match_Model()
-        //{
-        //    var path = "/api/guitars";
-        //    var status = 201;
-        //    var body = new Guitar("PRS", "Tremonti Signature Model", "Solid body", 6);
-        //    var response = new {uri = "api/guitars/1", value = body };
+        [Fact]
+        public void Should_Post_Guitar_And_Match_Data()
+        {
+            var path = "/api/guitars";
+            var status = 201;
+            var body = new Guitar("PRS", "Tremonti Signature Model", "Solid body", 6);
 
-        //    //Arrange
-        //    _mockProviderService
-        //        .Given("A POST request to create a new guitar")
-        //        .UponReceiving("Should receive something")
-        //        .With(new ProviderServiceRequest
-        //        {
-        //            Method = HttpVerb.Post,
-        //            Path = path,
-        //            Headers = new Dictionary<string, object>
-        //            {
-        //                { "Accept", "application/json" },
-        //                { "Content-Type", "application/json; charset=utf-8" }
-        //            },
-        //            Body = body
-        //        })
-        //        .WillRespondWith(new ProviderServiceResponse
-        //        {
-        //            Status = status,
-        //            Headers = new Dictionary<string, object>
-        //            {
-        //                { "Content-Type", "application/json; charset=utf-8" }
-        //            },
-        //            Body = Match.Type(response)
-        //        }); //NOTE: WillRespondWith call must come last as it will register the interaction
+            //Arrange
+            _mockProviderService
+                .Given("A POST request to create a new guitar")
+                .UponReceiving("Should receive a matching guitar")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Post,
+                    Path = path,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Accept", "application/json" },
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                    Body = body
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = status,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                    Body = body
+                }); //NOTE: WillRespondWith call must come last as it will register the interaction
 
-        //    //Act
-        //    var result = _mockProviderClient.SendGenericRequest<object>(HttpMethod.Post, path, HttpStatusCode.Created, body, response);
+            //Act
+            var result = _mockProviderClient.SendGenericRequest<Guitar>(HttpMethod.Post, path, HttpStatusCode.Created, body);
 
-        //    //Assert
-        //    Assert.NotNull(result);
+            //Assert
+            Assert.NotNull(result);
 
-        //    _mockProviderService.VerifyInteractions(); //NOTE: Verifies that interactions registered on the mock provider are called at least once
-        //}
+            _mockProviderService.VerifyInteractions(); //NOTE: Verifies that interactions registered on the mock provider are called at least once
+        }
+
+        [Fact]
+        public void Should_Post_Guitar_And_Match_Model()
+        {
+            var path = "/api/guitars";
+            var status = 201;
+            var body = new Guitar("PRS", "Tremonti Signature Model", "Solid body", 6);
+            
+            //Arrange
+            _mockProviderService
+                .Given("A POST request to create a new guitar")
+                .UponReceiving("Should receive a matching guitar object")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Post,
+                    Path = path,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Accept", "application/json" },
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                    Body = body
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = status,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                    Body = Match.Type(body)
+                }); //NOTE: WillRespondWith call must come last as it will register the interaction
+
+            //Act
+            var result = _mockProviderClient.SendGenericRequest<Guitar>(HttpMethod.Post, path, HttpStatusCode.Created, body);
+
+            //Assert
+            Assert.NotNull(result);
+
+            _mockProviderService.VerifyInteractions(); //NOTE: Verifies that interactions registered on the mock provider are called at least once
+        }
+
+        [Fact]
+        public void Should_Put_Guitar_And_Match_Data()
+        {
+            var path = "/api/guitars";
+            var status = 200;
+            var body = new Guitar("PRS", "Tremonti Signature Model", "Solid body", 6);
+
+            //Arrange
+            _mockProviderService
+                .Given("A PUT request to update a guitar")
+                .UponReceiving("Should receive a matching guitar")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Put,
+                    Path = path,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Accept", "application/json" },
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                    Body = body
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = status,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                    Body = body
+                }); //NOTE: WillRespondWith call must come last as it will register the interaction
+
+            //Act
+            var result = _mockProviderClient.SendGenericRequest<Guitar>(HttpMethod.Put, path, HttpStatusCode.OK, body);
+
+            //Assert
+            Assert.NotNull(result);
+
+            _mockProviderService.VerifyInteractions(); //NOTE: Verifies that interactions registered on the mock provider are called at least once
+        }
+
+        [Fact]
+        public void Should_Put_Guitar_And_Match_Model()
+        {
+            var path = "/api/guitars";
+            var status = 200;
+            var body = new Guitar("PRS", "Tremonti Signature Model", "Solid body", 6);
+
+            //Arrange
+            _mockProviderService
+                .Given("A PUT request to update a guitar")
+                .UponReceiving("Should receive a matching updated guitar object")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Put,
+                    Path = path,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Accept", "application/json" },
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                    Body = body
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = status,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                    Body = Match.Type(body)
+                }); //NOTE: WillRespondWith call must come last as it will register the interaction
+
+            //Act
+            var result = _mockProviderClient.SendGenericRequest<Guitar>(HttpMethod.Put, path, HttpStatusCode.OK, body);
+
+            //Assert
+            Assert.NotNull(result);
+
+            _mockProviderService.VerifyInteractions(); //NOTE: Verifies that interactions registered on the mock provider are called at least once
+        }
     }
 }
